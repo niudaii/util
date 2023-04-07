@@ -1,4 +1,4 @@
-package utils
+package util
 
 func Min(a, b int) int {
 	if a > b {
@@ -6,3 +6,4 @@ func Min(a, b int) int {
 	}
 	return a
 }
+

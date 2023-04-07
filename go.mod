@@ -1,3 +1,3 @@
-module github.com/niudaii/utils
+module github.com/niudaii/util
 
 go 1.20
