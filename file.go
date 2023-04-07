@@ -2,7 +2,9 @@ package util
 
 import (
 	"bufio"
+	"encoding/json"
 	"os"
+	"path/filepath"
 )
 
 // PathExists 判断路径是否存在
@@ -48,4 +50,41 @@ func ReadFile(filename string) (bytes []byte, err error) {
 		return
 	}
 	return data, nil
+}
+
+// WriteFile 写入文件
+func WriteFile(filename string, data string) (err error) {
+	file, err := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0666)
+	if err != nil {
+		return err
+	}
+	writer := bufio.NewWriter(file)
+	_, _ = writer.WriteString(data)
+	_ = writer.Flush()
+	return nil
+}
+
+// SaveMarshal json 格式保存
+func SaveMarshal(filename string, results interface{}) (err error) {
+	var data []byte
+	data, err = json.Marshal(results)
+	if err != nil {
+		return
+	}
+	err = WriteFile(filename, string(data))
+	return
+}
+
+// GetAllFile 获取指定目录下所有文件
+func GetAllFile(dirPath string) (results []string, err error) {
+	err = filepath.Walk(dirPath, func(path string, info os.FileInfo, err error) error {
+		if !info.IsDir() {
+			results = append(results, path)
+		}
+		return nil
+	})
+	if err != nil {
+		return
+	}
+	return
 }
