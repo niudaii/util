@@ -11,7 +11,7 @@ var (
 	reService = regexp.MustCompile(`^\d+\.\d+\.\d+\.\d+:\d+[\|\w]+$`)
 )
 
-func IsVaildDomain(str string) bool {
+func IsValidDomain(str string) bool {
 	return reDomain.Match([]byte(str))
 }
 
@@ -35,6 +35,6 @@ func IsLocalIP(ip net.IP) bool {
 		(ip4[0] == 192 && ip4[1] == 168) // 192.168.0.0/16
 }
 
-func IsVaildService(str string) bool {
+func IsValidService(str string) bool {
 	return reService.Match([]byte(str))
 }
