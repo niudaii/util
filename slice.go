@@ -36,3 +36,12 @@ func HasInt(list []int, to int) bool {
 	}
 	return false
 }
+
+func HasString(list []string, to string) bool {
+	for _, item := range list {
+		if to == item {
+			return true
+		}
+	}
+	return false
+}
