@@ -3,20 +3,17 @@ package util
 import "strings"
 
 // RemoveDuplicate 去重
-func RemoveDuplicate(list []string) []string {
-	var set []string
-	hashSet := make(map[string]struct{})
-	for _, v := range list {
-		hashSet[v] = struct{}{}
-	}
-	for k := range hashSet {
-		// 去除空字符串
-		if k == "" {
-			continue
+func RemoveDuplicate(slice []string) []string {
+	seen := make(map[string]bool)
+	var result []string
+
+	for _, v := range slice {
+		if !seen[v] {
+			seen[v] = true
+			result = append(result, v)
 		}
-		set = append(set, k)
 	}
-	return set
+	return result
 }
 
 func HasSuffixStr(list []string, to string) (string, bool) {
