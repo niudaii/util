@@ -15,7 +15,7 @@ func Upper(s string) string {
 	if s == "" {
 		return ""
 	}
-	return strings.ToUpper(s[:1]) + s[1:]
+	return strings.ToUpper(s)
 }
 
 // Lower 字符串全部小写
@@ -23,5 +23,5 @@ func Lower(s string) string {
 	if s == "" {
 		return ""
 	}
-	return strings.ToLower(s[:1]) + s[1:]
+	return strings.ToLower(s)
 }
