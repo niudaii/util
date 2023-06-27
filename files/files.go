@@ -18,8 +18,10 @@ type FileInfo interface {   // this struct is returned in os.Stat()
 */
 
 import (
-  "io/ioutil"
-  "os"
+	"bufio"
+	"encoding/json"
+	"os"
+	"path/filepath"
 )
 
 // PathExists 判断路径是否存在
@@ -139,12 +141,12 @@ func IsDir(src string) (bool, error) { // Check if especified path is a director
 }
 
 func GetContent(src string) (string, error) {
-	byte_content, err := ioutil.ReadFile(src)
+	byteContent, err := os.ReadFile(src)
 	if err != nil {
 		return "", err
 	}
 
-	return string(byte_content), nil
+	return string(byteContent), nil
 }
 
 func WriteContent(filename string, text string) error {
@@ -173,23 +175,25 @@ func Copy(src string, dst string) error { // Copy file or directory (recursive)
 	}
 
 	if check == true { // Enter here if especified source is a file
-		file_bytes, err := ioutil.ReadFile(src)
+		var fileBytes []byte
+		fileBytes, err = os.ReadFile(src)
 		if err != nil {
 			return err
 		}
 
-		err = ioutil.WriteFile(dst, file_bytes, 0644)
+		err = os.WriteFile(dst, fileBytes, 0644)
 		if err != nil {
 			return err
 		}
 
 	} else if check == false { // Enter here if especified source is a directory
-		src_info, err := os.Stat(src)
+		var srcInfo os.FileInfo
+		srcInfo, err = os.Stat(src)
 		if err != nil {
 			return err
 		}
 
-		err = os.MkdirAll(dst, src_info.Mode())
+		err = os.MkdirAll(dst, srcInfo.Mode())
 		if err != nil {
 			return err
 		}
@@ -207,11 +211,11 @@ func Copy(src string, dst string) error { // Copy file or directory (recursive)
 					return err
 				}
 			} else {
-				file_bytes, err := ioutil.ReadFile(srcfilepointer)
+				fileBytes, err := os.ReadFile(srcfilepointer)
 				if err != nil {
 					return err
 				}
-				err = ioutil.WriteFile(dstfilepointer, file_bytes, 0644)
+				err = os.WriteFile(dstfilepointer, fileBytes, 0644)
 				if err != nil {
 					return err
 				}
