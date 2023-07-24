@@ -1,6 +1,10 @@
 package util
 
-import "math/rand"
+import (
+	"fmt"
+	"math/rand"
+	"time"
+)
 
 var defaultLetters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
@@ -20,4 +24,9 @@ func RandomString(n int, allowedChars ...[]rune) string {
 	}
 
 	return string(b)
+}
+
+func RandomIp() string {
+	rand.New(rand.NewSource(time.Now().UnixNano()))
+	return fmt.Sprintf("101.%d.%d.%d", 1+rand.Intn(254), 1+rand.Intn(254), 1+rand.Intn(254))
 }
